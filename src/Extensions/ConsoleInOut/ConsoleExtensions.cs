@@ -131,7 +131,7 @@ namespace Extensions.Core.ConsoleInOut
                             input = null;
                             continue;
                         }
-                        else if (!chosenIndex.IsWithin(minValue, maxValue))
+                        else if (!chosenIndex.IsBetween(minValue, maxValue))
                         {
                             Write(ErrorType.OutOfRange);
                             input = null;
@@ -162,7 +162,7 @@ namespace Extensions.Core.ConsoleInOut
         /// <param name="max">The maximum value that can be chosen</param>
         /// <param name="onNewLine">If true, the prompt will be printed on a new line</param>
         /// <returns>A value within the specified range: [<paramref name="min"/>, <paramref name="max"/>]</returns>
-        public static TDataType PromptFor<TDataType>(string prompt, TDataType min, TDataType max, bool onNewLine = true) where TDataType : IComparable
+        public static TDataType PromptFor<TDataType>(string prompt, TDataType min, TDataType max, bool onNewLine = true) where TDataType : class, IComparable
         {
             TDataType value = default(TDataType);
             string input = null;
@@ -175,7 +175,7 @@ namespace Extensions.Core.ConsoleInOut
                     Write(ErrorType.NumberFormat);
                     continue;
                 }
-                else if (!value.IsWithin<TDataType>(min, max))
+                else if (!value.IsBetween<TDataType>(min, max))
                 {
                     Write(ErrorType.OutOfRange);
                     continue;
@@ -348,21 +348,21 @@ namespace Extensions.Core.ConsoleInOut
         /// <summary>
         /// Indicates whether the specified <paramref name="value"/> contains the default value of the specified <paramref name="DataType"/>
         /// </summary>
-        /// <typeparam name="DataType">The type of item being checked</typeparam>
+        /// <typeparam name="TDataType">The type of item being checked</typeparam>
         /// <param name="value">The value to check</param>
         /// <returns>True if the value is the default value of the specified <paramref name="DataType"/> or if the value is null</returns>
-        public static bool IsDefault<DataType>(this DataType value)
+        public static bool IsDefault<TDataType>(this TDataType value) where TDataType : class 
         {
-            var defaultValue = default(DataType);
+            var defaultValue = default(TDataType);
             return !value.IsNull() && value.Equals(defaultValue);
         }
         /// <summary>
         /// Indicates whether the specified <paramref name="value"/> contains the value null
         /// </summary>
-        /// <typeparam name="DataType">The type of item being checked</typeparam>
+        /// <typeparam name="TDataType">The type of item being checked</typeparam>
         /// <param name="value">The value being checked</param>
         /// <returns>True if the value is null</returns>
-        public static bool IsNull<DataType>(this DataType value)
+        public static bool IsNull<TDataType>(this TDataType value) where TDataType : class 
         {
             return value == null;
         }
@@ -370,12 +370,12 @@ namespace Extensions.Core.ConsoleInOut
         /// <summary>
         /// Indicates whether the specified <paramref name="value"/> is within the range: [<paramref name="min"/>, <paramref name="max"/>]
         /// </summary>
-        /// <typeparam name="DataType">The type of the value being compared</typeparam>
+        /// <typeparam name="TDataType">The type of the value being compared</typeparam>
         /// <param name="value">The value being verified</param>
         /// <param name="min">The smallest possible value that the specified <paramref name="value"/> can be</param>
         /// <param name="max">The largest possible value that the specified <paramref name="value"/> can be</param>
         /// <returns>True if the value is at or below the specified <paramref name="max"/> and at or above the specified <paramref name="min"/></returns>
-        public static bool IsWithin<DataType>(this DataType value, DataType min, DataType max) where DataType : IComparable
+        public static bool IsBetween<TDataType>(this TDataType value, TDataType min, TDataType max) where TDataType : IComparable
         {
             int minComparison = value.CompareTo(min);
             int maxComparison = value.CompareTo(max);

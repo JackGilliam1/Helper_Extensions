@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using Extensions.Core.TextFunctions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
+
 
 namespace Extensions.Tests
 {
-
-    [TestClass]
-    public class InvalidStringTests
+    public class InvalidStringTests : TestsBase
     {
         private IEnumerable<string> ValidStrings = new List<string>() 
         { 
@@ -16,7 +15,7 @@ namespace Extensions.Tests
 
         private const string expected = "error";
 
-        [TestMethod]
+        [Fact]
         public void Unspecified_String_Input_Caught()
         {
             //Arrange
@@ -26,10 +25,10 @@ namespace Extensions.Tests
             object output = ValidationExtensions.ValidateAndConvert<string>(input, choices:ValidStrings, choicesAreRequired: true);
 
             //Assert
-            Assert.IsTrue(output.ToString().ToLower().Contains(expected));
+            AssertTrue(output.ToString().ToLower().Contains(expected));
         }
 
-        [TestMethod]
+        [Fact]
         public void String_Input_Not_Matching_Regex_Caught()
         {
             //Arrange
@@ -40,10 +39,10 @@ namespace Extensions.Tests
             object output = ValidationExtensions.ValidateAndConvert<string>(input, pattern: pattern);
 
             //Assert
-            Assert.IsTrue(output.ToString().ToLower().Contains(expected));
+            AssertTrue(output.ToString().ToLower().Contains(expected));
         }
 
-        [TestMethod]
+        [Fact]
         public void Empty_String_Input_Caught()
         {
             //Arrange
@@ -53,10 +52,10 @@ namespace Extensions.Tests
             object output = ValidationExtensions.ValidateAndConvert<string>(input);
 
             //Assert
-            Assert.IsTrue(output.ToString().ToLower().Contains(expected));
+            AssertTrue(output.ToString().ToLower().Contains(expected));
         }
 
-        [TestMethod]
+        [Fact]
         public void Blank_String_Input_Caught()
         {
             //Arrange
@@ -66,7 +65,7 @@ namespace Extensions.Tests
             object output = ValidationExtensions.ValidateAndConvert<string>(input);
 
             //Assert
-            Assert.IsTrue(output.ToString().ToLower().Contains(expected));
+            AssertTrue(output.ToString().ToLower().Contains(expected));
         }
     }
 }

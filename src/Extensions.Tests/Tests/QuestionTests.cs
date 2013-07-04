@@ -3,14 +3,14 @@ using Extensions.Core.Collections;
 using Extensions.Core.Generics;
 using Extensions.Core.Types;
 using Extensions.Tests.TestObjects;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
+
 
 namespace Extensions.Tests
 {
-    [TestClass]
-    public class QuestionTests
+    public class QuestionTests : TestsBase
     {
-        [TestMethod]
+        [Fact]
         public void IsLastIn_Returns_Correct_Results()
         {
             object testObj1 = new object();
@@ -26,11 +26,11 @@ namespace Extensions.Tests
             bool result2 = CollectionExtension.HasLastOf(list, testObj1);
 
             //Assert
-            Assert.IsTrue(result1);
-            Assert.IsFalse(result2);
+            AssertTrue(result1);
+            AssertFalse(result2);
         }
 
-        [TestMethod]
+        [Fact]
         public void Existing_Method_Found_For_Types()
         {
             //Arrange
@@ -41,10 +41,10 @@ namespace Extensions.Tests
             result = TypeExtensions.HasMethod(testObj.GetType(), "Add");
 
             //Assert
-            Assert.IsTrue(result);
+            AssertTrue(result);
         }
 
-        [TestMethod]
+        [Fact]
         public void Existing_Method_Found_For_Objects()
         {
             //Arrange
@@ -55,10 +55,10 @@ namespace Extensions.Tests
             result = TypeExtensions.HasMethod(testObj, "Add");
 
             //Assert
-            Assert.IsTrue(result);
+            AssertTrue(result);
         }
 
-        [TestMethod]
+        [Fact]
         public void Collections_Are_Determined_To_Contain_Items()
         {
             //Arrange
@@ -73,10 +73,10 @@ namespace Extensions.Tests
             result = testObjects.HasItems();
 
             //Assert
-            Assert.IsTrue(result);
+            AssertTrue(result);
         }
 
-        [TestMethod]
+        [Fact]
         public void Collections_Are_Determined_To_Contain_No_Items()
         {
             //Arrange
@@ -88,10 +88,10 @@ namespace Extensions.Tests
             result = testObjects.HasItems();
 
             //Assert
-            Assert.IsFalse(result);
+            AssertFalse(result);
         }
 
-        [TestMethod]
+        [Fact]
         public void IsGreaterThan_Correct_For_Strings()
         {
             //Arrange
@@ -102,10 +102,10 @@ namespace Extensions.Tests
             bool isGreater = GenericExtensions.IsLargerThan(first, second);
 
             //Assert
-            Assert.IsTrue(isGreater);
+            AssertTrue(isGreater);
         }
 
-        [TestMethod]
+        [Fact]
         public void IsGreaterThan_Correct_For_Primitive_Number_Types()
         {
             //Arrange
@@ -122,13 +122,13 @@ namespace Extensions.Tests
             bool firstFloatIsGreater = GenericExtensions.IsLargerThan(firstFloat, secondFloat);
 
             //Assert
-            Assert.IsTrue(firstIntegerIsGreater);
-            Assert.IsTrue(firstDoubleIsGreater);
-            Assert.IsTrue(firstFloatIsGreater);
+            AssertTrue(firstIntegerIsGreater);
+            AssertTrue(firstDoubleIsGreater);
+            AssertTrue(firstFloatIsGreater);
         }
 
 
-        [TestMethod]
+        [Fact]
         public void IsLessThan_Correct_For_Strings()
         {
             //Arrange
@@ -139,10 +139,10 @@ namespace Extensions.Tests
             bool isLesser = GenericExtensions.IsSmallerThan(first, second);
 
             //Assert
-            Assert.IsTrue(isLesser);
+            AssertTrue(isLesser);
         }
 
-        [TestMethod]
+        [Fact]
         public void IsLessThan_Correct_For_Primitive_Number_Types()
         {
             //Arrange
@@ -159,13 +159,13 @@ namespace Extensions.Tests
             bool firstFloatIsLesser = GenericExtensions.IsSmallerThan(firstFloat, secondFloat);
 
             //Assert
-            Assert.IsTrue(firstIntegerIsLesser);
-            Assert.IsTrue(firstDoubleIsLesser);
-            Assert.IsTrue(firstFloatIsLesser);
+            AssertTrue(firstIntegerIsLesser);
+            AssertTrue(firstDoubleIsLesser);
+            AssertTrue(firstFloatIsLesser);
         }
 
 
-        [TestMethod]
+        [Fact]
         public void Two_Collections_Equal()
         {
             //Arrange
@@ -184,10 +184,10 @@ namespace Extensions.Tests
             bool areEqual = GenericExtensions.SameAs(listOne, listTwo);
 
             //Assert
-            Assert.IsTrue(areEqual);
+            AssertTrue(areEqual);
         }
 
-        [TestMethod]
+        [Fact]
         public void Two_Collections_Not_Equal()
         {
             //Arrange
@@ -206,10 +206,10 @@ namespace Extensions.Tests
             bool areEqual = GenericExtensions.SameAs(listOne, listTwo);
 
             //Assert
-            Assert.IsFalse(areEqual);
+            AssertFalse(areEqual);
         }
 
-        [TestMethod]
+        [Fact]
         public void Two_Integers_Equal()
         {
             //Arrange
@@ -220,10 +220,10 @@ namespace Extensions.Tests
             bool areEqual = GenericExtensions.SameAs(first, second);
 
             //Assert
-            Assert.IsTrue(areEqual);
+            AssertTrue(areEqual);
         }
 
-        [TestMethod]
+        [Fact]
         public void Two_Integers_Not_Equal()
         {
             //Arrange
@@ -234,10 +234,10 @@ namespace Extensions.Tests
             bool areEqual = GenericExtensions.SameAs(first, second);
 
             //Assert
-            Assert.IsFalse(areEqual);
+            AssertFalse(areEqual);
         }
 
-        [TestMethod]
+        [Fact]
         public void Two_Doubles_Equal()
         {
             //Arrange
@@ -248,10 +248,10 @@ namespace Extensions.Tests
             bool areEqual = GenericExtensions.SameAs(first, second);
 
             //Assert
-            Assert.IsTrue(areEqual);
+            AssertTrue(areEqual);
         }
 
-        [TestMethod]
+        [Fact]
         public void Two_Doubles_Not_Equal()
         {
             //Arrange
@@ -262,10 +262,10 @@ namespace Extensions.Tests
             bool areEqual = GenericExtensions.SameAs(first, second);
 
             //Assert
-            Assert.IsFalse(areEqual);
+            AssertFalse(areEqual);
         }
 
-        [TestMethod]
+        [Fact]
         public void Two_Floats_Equal()
         {
             //Arrange
@@ -276,10 +276,10 @@ namespace Extensions.Tests
             bool areEqual = GenericExtensions.SameAs(first, second);
 
             //Assert
-            Assert.IsTrue(areEqual);
+            AssertTrue(areEqual);
         }
 
-        [TestMethod]
+        [Fact]
         public void Two_Floats_Not_Equal()
         {
             //Arrange
@@ -290,7 +290,7 @@ namespace Extensions.Tests
             bool areEqual = GenericExtensions.SameAs(first, second);
 
             //Assert
-            Assert.IsFalse(areEqual);
+            AssertFalse(areEqual);
         }
     }
 }

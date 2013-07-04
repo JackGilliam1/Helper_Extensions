@@ -1,9 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-
+﻿
 namespace Extensions.Tests
 {
-    [TestClass]
-    public abstract class IExtTest
+    public abstract class IExtTest : TestsBase
     {
         protected const int TestInteger = 5;
         protected const double TestDouble = 5.1;

@@ -1,15 +1,15 @@
 ﻿using System;
 using Extensions.Core.Generics;
 using Extensions.Core.TextFunctions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using System.Reflection;
+using Xunit;
 
 namespace Extensions.Tests
 {
-    [TestClass]
-    public class TextExtTests
+    public class TextExtTests : TestsBase
     {
-        [TestMethod]
+        [Fact]
         public void Can_Convert_String_To_Method()
         {
             //Arrange
@@ -40,14 +40,14 @@ namespace Extensions.Tests
             catch
             {
                 bool wentInHere = true;
-                Assert.IsFalse(wentInHere);
+                AssertFalse(wentInHere);
             }
 
             //Assert
-            Assert.AreNotEqual(0, result);
+            AssertNotEqual(0, result);
         }
 
-        [TestMethod]
+        [Fact]
         public void WhiteSpace_Is_Removed()
         {
             //Arrange
@@ -58,10 +58,10 @@ namespace Extensions.Tests
             string output = input.RemoveWhiteSpace();
 
             //Assert
-            Assert.AreEqual(expected, output);
+            AssertEqual(expected, output);
         }
 
-        [TestMethod]
+        [Fact]
         public void Empty_Integer()
         {
             //Arrange
@@ -71,10 +71,10 @@ namespace Extensions.Tests
             bool output = GenericExtensions.IsEmpty(input, true);
 
             //Assert
-            Assert.IsTrue(output);
+            AssertTrue(output);
         }
 
-        [TestMethod]
+        [Fact]
         public void Empty_Double()
         {
             //Arrange
@@ -84,10 +84,10 @@ namespace Extensions.Tests
             bool output = GenericExtensions.IsEmpty(input, true);
 
             //Assert
-            Assert.IsTrue(output);
+            AssertTrue(output);
         }
 
-        [TestMethod]
+        [Fact]
         public void Blank_String()
         {
             //Arrange
@@ -97,10 +97,10 @@ namespace Extensions.Tests
             bool output = GenericExtensions.IsEmpty(input);
 
             //Assert
-            Assert.IsTrue(output);
+            AssertTrue(output);
         }
 
-        [TestMethod]
+        [Fact]
         public void Null_Object()
         {
             //Arrange
@@ -110,10 +110,10 @@ namespace Extensions.Tests
             bool output = GenericExtensions.IsEmpty(input);
 
             //Assert
-            Assert.IsTrue(output);
+            AssertTrue(output);
         }
 
-        [TestMethod]
+        [Fact]
         public void Non_Null_Object()
         {
             //Arrange
@@ -123,10 +123,10 @@ namespace Extensions.Tests
             bool output = GenericExtensions.IsEmpty(input);
 
             //Assert
-            Assert.IsFalse(output);
+            AssertFalse(output);
         }
 
-        [TestMethod]
+        [Fact]
         public void Non_Empty_String()
         {
             //Arrange
@@ -136,10 +136,10 @@ namespace Extensions.Tests
             bool output = GenericExtensions.IsEmpty(input);
 
             //Assert
-            Assert.IsFalse(output);
+            AssertFalse(output);
         }
 
-        [TestMethod]
+        [Fact]
         public void Non_Empty_Number_String()
         {
             //Arrange
@@ -149,7 +149,7 @@ namespace Extensions.Tests
             bool output = GenericExtensions.IsEmpty(input, true);
 
             //Assert
-            Assert.IsFalse(output);
+            AssertFalse(output);
         }
     }
 }

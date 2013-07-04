@@ -5,12 +5,12 @@ using Extensions.Core.Collections;
 using Extensions.Core.Generics;
 using Extensions.Core.Types;
 using Extensions.Tests.TestObjects;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
+
 
 namespace Extensions.Tests
 {
-    [TestClass]
-    public class FunctionTests
+    public class FunctionTests : TestsBase
     {
         private TestObject<string> testObject1 = new TestObject<string>()
         {
@@ -20,7 +20,7 @@ namespace Extensions.Tests
             SomeString = "String2",
         };
 
-        [TestMethod]
+        [Fact]
         public void Properties_Are_Found()
         {
             //Arrange
@@ -29,20 +29,20 @@ namespace Extensions.Tests
             object output = TypeExtensions.Prop(testObject1, "RandomValue");
 
             //Assert
-            Assert.IsNotNull(output);
+            AssertIsNotNull(output);
         }
 
-        [TestMethod]
+        [Fact]
         public void Methods_Are_Found()
         {
             //Act
             object output = TypeExtensions.Meth(testObject1, "Add");
 
             //Assert
-            Assert.IsNotNull(output);
+            AssertIsNotNull(output);
         }
 
-        [TestMethod]
+        [Fact]
         public void Correct_Property_Values_Return_From_Objects()
         {
             //Arrange
@@ -65,14 +65,14 @@ namespace Extensions.Tests
             var intResult = TypeExtensions.Val(testObject1, "AdditionNumber");
 
             //Assert
-            Assert.IsNotNull(stringResult);
-            Assert.IsNotNull(doubleResult);
-            Assert.AreEqual(stringInput.ToString(), stringResult.ToString());
-            Assert.AreEqual(doubleInput.ToString(), doubleResult.ToString());
-            Assert.AreEqual(intInput.ToString(), intResult.ToString());
+            AssertIsNotNull(stringResult);
+            AssertIsNotNull(doubleResult);
+            AssertEqual(stringInput.ToString(), stringResult.ToString());
+            AssertEqual(doubleInput.ToString(), doubleResult.ToString());
+            AssertEqual(intInput.ToString(), intResult.ToString());
         }
 
-        [TestMethod]
+        [Fact]
         public void Correct_Items_Result_From_GetBy()
         {
             //Arrange
@@ -135,15 +135,15 @@ namespace Extensions.Tests
             var results = CollectionExtension.GetBy(storage.TestObjects, "RandomValue", doubleInputValue);
 
             //Assert
-            Assert.AreEqual(2, results.Count());
+            AssertEqual(2, results.Count());
             foreach (object res in results)
             {
                 var result = res as TestObject<string>;
-                Assert.AreEqual(doubleInputValue, result.RandomValue);
+                AssertEqual(doubleInputValue, result.RandomValue);
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void Between_Two_Objects_NonNull_Object_Results()
         {
             //Arrange
@@ -154,11 +154,11 @@ namespace Extensions.Tests
             var result = GenericExtensions.NonNullOf(testObject1, testObject2);
 
             //Assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(testObject1, result);
+            AssertIsNotNull(result);
+            AssertEqual(testObject1, result);
         }
 
-        [TestMethod]
+        [Fact]
         public void Between_Two_NonNull_Objects_First_Object_Results()
         {
             //Arrange
@@ -169,11 +169,11 @@ namespace Extensions.Tests
             var result = GenericExtensions.NonNullOf(testObject1, testObject2);
 
             //Assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual(testObject1, result);
+            AssertIsNotNull(result);
+            AssertEqual(testObject1, result);
         }
 
-        [TestMethod]
+        [Fact]
         public void Between_Two_Null_Objects_Null_Object_Results()
         {
             //Arrange
@@ -184,10 +184,10 @@ namespace Extensions.Tests
             object result = GenericExtensions.NonNullOf(testObject1, testObject2);
 
             //Assert
-            Assert.IsNull(result);
+            AssertIsNull(result);
         }
 
-        [TestMethod]
+        [Fact]
         public void Sequences_Turn_Into_Messages()
         {
             //Arrange
@@ -205,11 +205,11 @@ namespace Extensions.Tests
             List<string> results = numbers.ToMessages().ToList();
 
             //Assert
-            Assert.IsNotNull(results);
-            Assert.IsTrue(results.Count == 3);
-            Assert.AreEqual(dataOne.ToString(), results[0].ToString());
-            Assert.AreEqual(dataTwo.ToString(), results[1].ToString());
-            Assert.AreEqual(dataThree.ToString(), results[2].ToString());
+            AssertIsNotNull(results);
+            AssertTrue(results.Count == 3);
+            AssertEqual(dataOne.ToString(), results[0].ToString());
+            AssertEqual(dataTwo.ToString(), results[1].ToString());
+            AssertEqual(dataThree.ToString(), results[2].ToString());
         }
     }
 }

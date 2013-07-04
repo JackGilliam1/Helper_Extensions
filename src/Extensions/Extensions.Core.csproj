@@ -59,10 +59,6 @@
     <Compile Include="ConsoleInOut\Objects\StringPromptHandler.cs" />
     <Compile Include="Conversion\ConvertedValue.cs" />
     <Compile Include="Conversion\ConversionExtension.cs" />
-    <Compile Include="Conversion\INumberConverter.cs" />
-    <Compile Include="Conversion\StringDoubleConverter.cs" />
-    <Compile Include="Conversion\StringFloatConverter.cs" />
-    <Compile Include="Conversion\StringIntegerConverter.cs" />
     <Compile Include="Events\EventExtensions.cs" />
     <Compile Include="Files\FileExtensions.cs" />
     <Compile Include="Generics\GenericExtensions.cs" />

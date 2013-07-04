@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using Extensions.Core.Collections;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace Extensions.Tests
 {
-    [TestClass]
-    public class CollectionTests
+    public class CollectionTests : TestsBase
     {
-        [TestMethod]
+        [Fact]
         public void Collection_Changes_Into_String()
         {
-            List<List<int>> matrixOneData = new List<List<int>>()
+            var matrixOneData = new List<List<int>>()
             {
                 new List<int>() {2, 2},
                 new List<int>() {3, 4},

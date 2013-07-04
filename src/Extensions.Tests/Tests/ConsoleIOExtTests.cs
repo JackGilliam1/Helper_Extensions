@@ -1,12 +1,11 @@
 ﻿using Extensions.Core.ConsoleInOut;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace Extensions.Tests
 {
-    //[TestClass]
-    public class ConsoleIOExtTests : IExtTest
+    public class ConsoleIoExtTests : IExtTest
     {
-        [TestMethod]
+        [Fact]
         public void IsWithinRangeInteger()
         {
             //Arrange
@@ -15,13 +14,13 @@ namespace Extensions.Tests
             const double inputRangeMax = TestRangeMax;
 
             //Act
-            bool withinRange = ConsoleExtensions.IsWithin(input, inputRangeMin, inputRangeMax);
+            bool withinRange = ConsoleExtensions.IsBetween(input, inputRangeMin, inputRangeMax);
 
             //Assert
-            Assert.IsTrue(withinRange);
+            AssertTrue(withinRange);
         }
 
-        [TestMethod]
+        [Fact]
         public void IsWithinRangeDouble()
         {
             //Arrange
@@ -30,13 +29,13 @@ namespace Extensions.Tests
             const double inputRangeMax = TestRangeMax;
 
             //Act
-            bool withinRange = ConsoleExtensions.IsWithin(input, inputRangeMin, inputRangeMax);
+            bool withinRange = input.IsBetween(inputRangeMin, inputRangeMax);
 
             //Assert
-            Assert.IsTrue(withinRange);
+            AssertTrue(withinRange);
         }
 
-        [TestMethod]
+        [Fact]
         public void IsWithinRangeFloat()
         {
             //Arrange
@@ -45,10 +44,10 @@ namespace Extensions.Tests
             const double inputRangeMax = TestRangeMax;
 
             //Act
-            bool withinRange = ConsoleExtensions.IsWithin(input, inputRangeMin, inputRangeMax);
+            bool withinRange = ConsoleExtensions.IsBetween(input, inputRangeMin, inputRangeMax);
 
             //Assert
-            Assert.IsTrue(withinRange);
+            AssertTrue(withinRange);
         }
     }
 }

@@ -1,14 +1,14 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Tests
+
+namespace Extensions.Tests
 {
-    //[TestClass]
-    //public class EventExtTests
+    //
+    //public class EventExtTests : TestsBase
     //{
     //    private static bool waiting;
 
-    //    [TestMethod]
+    //    [Fact]
     //    public void Events_Are_Triggered()
     //    {
     //        //Arrange

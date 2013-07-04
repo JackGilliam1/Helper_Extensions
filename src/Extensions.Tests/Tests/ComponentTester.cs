@@ -1,10 +1,10 @@
 ﻿using Extensions.Core.Components;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
+
 
 namespace Extensions.Tests
 {
-    [TestClass]
-    public class ComponentHandlerTests
+    public class ComponentHandlerTests : TestsBase
     {
         private static IComponentHandler<IComponent> DefaultComponentHandler
         {
@@ -14,11 +14,11 @@ namespace Extensions.Tests
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void ComponentsAreAdded()
         {
             DefaultComponentHandler.AddComponent(new DefaultComponent(""));
-            Assert.IsTrue(DefaultComponentHandler.Count > 0);
+            AssertTrue(DefaultComponentHandler.Count > 0);
         }
     }
 }

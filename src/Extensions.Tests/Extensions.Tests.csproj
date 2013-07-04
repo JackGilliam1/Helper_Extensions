@@ -34,20 +34,19 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="SharpTestsEx">
-      <HintPath>..\packages\SharpTestsEx.1.1.1\lib\SharpTestsEx.dll</HintPath>
+      <HintPath>..\packages\SharpTestsEx\lib\SharpTestsEx.dll</HintPath>
     </Reference>
     <Reference Include="SharpTestsEx.Mvc">
-      <HintPath>..\packages\SharpTestsEx.1.1.1\lib\SharpTestsEx.Mvc.dll</HintPath>
+      <HintPath>..\packages\SharpTestsEx\lib\SharpTestsEx.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="xunit">
-      <HintPath>..\packages\xunit.1.9.1.0\lib\net20\xunit.dll</HintPath>
+      <HintPath>..\packages\xunit\lib\net20\xunit.dll</HintPath>
     </Reference>
     <Reference Include="xunit.extensions">
-      <HintPath>..\packages\xunit.extensions.1.9.1.0\lib\net20\xunit.extensions.dll</HintPath>
+      <HintPath>..\packages\xunit.extensions\lib\net20\xunit.extensions.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -56,10 +55,14 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NewTests\Collections\ConversionExtensionTests.cs" />
-    <Compile Include="NewTests\NumberConversion\IsConvertedTests.cs" />
-    <Compile Include="NewTests\NumberConversion\IsNumberTests.cs" />
+    <Compile Include="NewTests\ValueConversion\ConversionExtensionTests.cs" />
+    <Compile Include="NewTests\ValueConversion\StringToBooleanConversion.cs" />
+    <Compile Include="NewTests\ValueConversion\StringToDecimalConversion.cs" />
+    <Compile Include="NewTests\ValueConversion\StringToDoubleConversion.cs" />
+    <Compile Include="NewTests\ValueConversion\StringToFloatConversion.cs" />
+    <Compile Include="NewTests\ValueConversion\StringToIntegerConversion.cs" />
     <Compile Include="NewTests\Collections\CollectionExtensionsTests.cs" />
+    <Compile Include="Tests\TestsBase.cs" />
     <Compile Include="Tests\CollectionTests.cs" />
     <Compile Include="Tests\ComponentTester.cs" />
     <Compile Include="Tests\EventExtTests.cs" />
@@ -74,13 +77,10 @@
     <Compile Include="Tests\TextExtTests.cs" />
     <Compile Include="Tests\InvalidNumberCatchingTests.cs" />
     <Compile Include="Tests\InvalidStringCatchingTests.cs" />
-    <Compile Include="Tests\ConsoleIOExtTests.cs" />
+    <Compile Include="Tests\ConsoleIoExtTests.cs" />
     <Compile Include="Tests\IExtTest.cs" />
     <Compile Include="Tests\ValidNumberTests.cs" />
     <Compile Include="Tests\ValidStringTests.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Extensions\Extensions.Core.csproj">

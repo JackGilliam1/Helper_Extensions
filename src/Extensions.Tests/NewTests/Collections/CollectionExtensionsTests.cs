@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using Extensions.Core.Collections;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using SharpTestsEx;
+using Xunit;
 
 namespace Extensions.Tests.Collections
 {
-    [TestClass]
     public class CollectionExtensionsTests
     {
-        [TestMethod]
+        [Fact]
         public void CollectionsSameCount()
         {
             var firstCollection = new List<object>()
@@ -26,7 +26,7 @@ namespace Extensions.Tests.Collections
             firstCollection.SameCount(secondCollection).Should("The Collections have the same count, but were rejected").Be.True();
         }
 
-        [TestMethod]
+        [Fact]
         public void CollectionsDifferentCount()
         {
             var firstCollection = new List<object>()
@@ -43,7 +43,7 @@ namespace Extensions.Tests.Collections
             firstCollection.SameCount(secondCollection).Should("The Collections have different counts, but were accepted").Be.False();
         }
 
-        [TestMethod]
+        [Fact]
         public void CollectionContainingCollectionsSameCount()
         {
             var firstCollection = new List<IEnumerable<object>>()
@@ -73,7 +73,7 @@ namespace Extensions.Tests.Collections
             firstCollection.SameCount(secondCollection).Should("The Collections of Collections have the same count, but were rejected").Be.True();
         }
 
-        [TestMethod]
+        [Fact]
         public void CollectionsContainingCollectionsDifferentCount()
         {
             var firstCollection = new List<IEnumerable<object>>()

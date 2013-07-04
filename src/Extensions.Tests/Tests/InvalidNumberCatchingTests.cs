@@ -1,11 +1,10 @@
 ﻿using Extensions.Core.TextFunctions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
+using Xunit;
 
 namespace Extensions.Tests
 {
-    [TestClass]
-    public class InvalidNumberTests
+    public class InvalidNumberTests : TestsBase
     {
         private const double DEFAULT_MIN = 1;
         private const double DEFAULT_MAX = 3;
@@ -31,7 +30,7 @@ namespace Extensions.Tests
             3.3f
         };
 
-        [TestMethod]
+        [Fact]
         public void Integers_Containing_Letters_Caught()
         {
             //Arrange
@@ -41,10 +40,10 @@ namespace Extensions.Tests
             object output = ValidationExtensions.ValidateAndConvert<int>(input.ToString());
 
             //Assert
-            Assert.AreNotEqual(input, output);
+            AssertNotEqual(input, output);
         }
 
-        [TestMethod]
+        [Fact]
         public void Integers_Not_Matching_Pattern_Caught()
         {
             //Arrange
@@ -55,10 +54,10 @@ namespace Extensions.Tests
             object output = ValidationExtensions.ValidateAndConvert<int>(input.ToString(), pattern: pattern);
 
             //Assert
-            Assert.AreNotEqual(input, output);
+            AssertNotEqual(input, output);
         }
 
-        [TestMethod]
+        [Fact]
         public void Integers_Below_Range_Caught()
         {
             //Arrange
@@ -68,10 +67,10 @@ namespace Extensions.Tests
             object output = ValidationExtensions.ValidateAndConvert<int>(input.ToString(), min: DEFAULT_MIN, max: DEFAULT_MAX);
 
             //Assert
-            Assert.AreNotEqual(input, output);
+            AssertNotEqual(input, output);
         }
 
-        [TestMethod]
+        [Fact]
         public void Integers_Above_Range_Caught()
         {
             //Arrange
@@ -81,10 +80,10 @@ namespace Extensions.Tests
             object output = ValidationExtensions.ValidateAndConvert<int>(input.ToString(), min: DEFAULT_MIN, max: DEFAULT_MAX);
 
             //Assert
-            Assert.AreNotEqual(input, output);
+            AssertNotEqual(input, output);
         }
 
-        [TestMethod]
+        [Fact]
         public void Integers_Unspecified_Caught()
         {
             //Arrange
@@ -94,10 +93,10 @@ namespace Extensions.Tests
             object output = ValidationExtensions.ValidateAndConvert<int>(text: input.ToString(), choices: ValidIntegers, choicesAreRequired: true);
 
             //Assert
-            Assert.AreNotEqual(input, output);
+            AssertNotEqual(input, output);
         }
 
-        [TestMethod]
+        [Fact]
         public void Doubles_Containing_Letters_Caught()
         {
             //Arrange
@@ -107,10 +106,10 @@ namespace Extensions.Tests
             object output = ValidationExtensions.ValidateAndConvert<double>(input.ToString());
 
             //Assert
-            Assert.AreNotEqual(input.ToString(), output.ToString());
+            AssertNotEqual(input, output);
         }
 
-        [TestMethod]
+        [Fact]
         public void Doubles_Not_Matching_Pattern_Caught()
         {
             //Arrange
@@ -121,10 +120,10 @@ namespace Extensions.Tests
             object output = ValidationExtensions.ValidateAndConvert<double>(input.ToString(), pattern: pattern);
 
             //Assert
-            Assert.AreNotEqual(input, output);
+            AssertNotEqual(input, output);
         }
 
-        [TestMethod]
+        [Fact]
         public void Doubles_Below_Range_Caught()
         {
             //Arrange
@@ -134,10 +133,10 @@ namespace Extensions.Tests
             object output = ValidationExtensions.ValidateAndConvert<double>(input.ToString(), min: DEFAULT_MIN, max: DEFAULT_MAX);
 
             //Assert
-            Assert.AreNotEqual(input, output);
+            AssertNotEqual(input, output);
         }
 
-        [TestMethod]
+        [Fact]
         public void Doubles_Above_Range_Caught()
         {
             //Arrange
@@ -147,10 +146,10 @@ namespace Extensions.Tests
             object output = ValidationExtensions.ValidateAndConvert<double>(input.ToString(), min: DEFAULT_MIN, max: DEFAULT_MAX);
 
             //Assert
-            Assert.AreNotEqual(input, output);
+            AssertNotEqual(input, output);
         }
 
-        [TestMethod]
+        [Fact]
         public void Doubles_Unspecified_Caught()
         {
             //Arrange
@@ -160,10 +159,10 @@ namespace Extensions.Tests
             object output = ValidationExtensions.ValidateAndConvert<double>(text: input.ToString(), choices: ValidDoubles, choicesAreRequired: true);
 
             //Assert
-            Assert.AreNotEqual(input, output);
+            AssertNotEqual(input, output);
         }
 
-        [TestMethod]
+        [Fact]
         public void Floats_Containing_Letters_Caught()
         {
             //Arrange
@@ -173,10 +172,10 @@ namespace Extensions.Tests
             object output = ValidationExtensions.ValidateAndConvert<float>(input.ToString());
 
             //Assert
-            Assert.AreNotEqual(input.ToString(), output.ToString());
+            AssertNotEqual(input, output);
         }
 
-        [TestMethod]
+        [Fact]
         public void Floats_Not_Matching_Pattern_Caught()
         {
             //Arrange
@@ -187,10 +186,10 @@ namespace Extensions.Tests
             object output = ValidationExtensions.ValidateAndConvert<float>(input.ToString(), pattern: pattern);
 
             //Assert
-            Assert.AreNotEqual(input, output);
+            AssertNotEqual(input, output);
         }
 
-        [TestMethod]
+        [Fact]
         public void Floats_Below_Range_Caught()
         {
             //Arrange
@@ -200,10 +199,10 @@ namespace Extensions.Tests
             object output = ValidationExtensions.ValidateAndConvert<float>(input.ToString(), min: DEFAULT_MIN, max: DEFAULT_MAX);
 
             //Assert
-            Assert.AreNotEqual(input, output);
+            AssertNotEqual(input, output);
         }
 
-        [TestMethod]
+        [Fact]
         public void Floats_Above_Range_Caught()
         {
             //Arrange
@@ -213,10 +212,10 @@ namespace Extensions.Tests
             object output = ValidationExtensions.ValidateAndConvert<float>(input.ToString(), min: DEFAULT_MIN, max: DEFAULT_MAX);
 
             //Assert
-            Assert.AreNotEqual(input, output);
+            AssertNotEqual(input, output);
         }
 
-        [TestMethod]
+        [Fact]
         public void Floats_Unspecified_Caught()
         {
             //Arrange
@@ -226,7 +225,7 @@ namespace Extensions.Tests
             object output = ValidationExtensions.ValidateAndConvert<float>(text: input.ToString(), choices: ValidFloats, choicesAreRequired: true);
 
             //Assert
-            Assert.AreNotEqual(input, output);
+            AssertNotEqual(input, output);
         }
     }
 }

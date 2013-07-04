@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using Extensions.Core.Searching;
 using Extensions.Tests.TestObjects;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
+
 
 namespace Extensions.Tests
 {
-
-    [TestClass]
-    public class SearchExtTests
+    public class SearchExtTests : TestsBase
     {
-        [TestMethod]
+        [Fact]
         public void SearchTest_Correct_Objects_Are_Found_Using_A_String_Property()
         {
             //Arrange
@@ -73,15 +72,15 @@ namespace Extensions.Tests
             var outputs2 = storage.TestObjects.ToList().StandardSearch<TestObject<string>>("SomeString", "String2");
 
             //Assert
-            Assert.IsTrue(outputs.Contains(testObject1));
-            Assert.IsTrue(outputs.Contains(testObject2));
-            Assert.IsFalse(outputs.Contains(testObject3));
-            Assert.IsTrue(outputs2.Contains(testObject1));
-            Assert.IsTrue(outputs2.Contains(testObject3));
-            Assert.IsFalse(outputs2.Contains(testObject2));
+            AssertTrue(outputs.Contains(testObject1));
+            AssertTrue(outputs.Contains(testObject2));
+            AssertFalse(outputs.Contains(testObject3));
+            AssertTrue(outputs2.Contains(testObject1));
+            AssertTrue(outputs2.Contains(testObject3));
+            AssertFalse(outputs2.Contains(testObject2));
         }
 
-        [TestMethod]
+        [Fact]
         public void SearchTest_Correct_Objects_Are_Found_Using_A_Number_Property()
         {
             //Arrange
@@ -144,12 +143,12 @@ namespace Extensions.Tests
             var outputs2 = storage.TestObjects.ToList().StandardSearch<TestObject<string>>("Id", 1);
 
             //Assert
-            Assert.IsTrue(outputs.Contains(testObject1));
-            Assert.IsTrue(outputs.Contains(testObject2));
-            Assert.IsFalse(outputs.Contains(testObject3));
-            Assert.IsTrue(outputs2.Contains(testObject1));
-            Assert.IsTrue(outputs2.Contains(testObject3));
-            Assert.IsFalse(outputs2.Contains(testObject2));
+            AssertTrue(outputs.Contains(testObject1));
+            AssertTrue(outputs.Contains(testObject2));
+            AssertFalse(outputs.Contains(testObject3));
+            AssertTrue(outputs2.Contains(testObject1));
+            AssertTrue(outputs2.Contains(testObject3));
+            AssertFalse(outputs2.Contains(testObject2));
         }
     }
 }

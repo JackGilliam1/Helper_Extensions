@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
 using Extensions.Core.TextFunctions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace Extensions.Tests
 {
-
-    [TestClass]
-    public class ValidStringTests
+    public class ValidStringTests : TestsBase
     {
         private IEnumerable<string> ValidStrings = new List<string>() 
         { 
@@ -14,7 +12,7 @@ namespace Extensions.Tests
             "ValidAnswer2"
         };
 
-        [TestMethod]
+        [Fact]
         public void Strings_Specified_Are_Returned()
         {
             //Arrange
@@ -24,10 +22,10 @@ namespace Extensions.Tests
             object output = ValidationExtensions.ValidateAndConvert<string>(input, ValidStrings);
 
             //Assert
-            Assert.AreEqual(input.ToString(), output.ToString());
+            AssertEqual(input, output);
         }
 
-        [TestMethod]
+        [Fact]
         public void Strings_Matching_Regex_Are_Returned()
         {
             //Arrange
@@ -38,7 +36,7 @@ namespace Extensions.Tests
             object output = ValidationExtensions.ValidateAndConvert<string>(input, pattern: pattern);
 
             //Assert
-            Assert.AreEqual(input.ToString(), output.ToString());
+            AssertEqual(input, output);
         }
     }
 }

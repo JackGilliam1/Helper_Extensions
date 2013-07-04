@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using Extensions.Core.TextFunctions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace Extensions.Tests
 {
-    [TestClass]
-    public class ValidNumberTests
+    public class ValidNumberTests : TestsBase
     {
         private const double DEFAULT_MIN = 1;
         private const double DEFAULT_MAX = 3;
@@ -31,7 +30,7 @@ namespace Extensions.Tests
             3.3f
         };
 
-        [TestMethod]
+        [Fact]
         public void Integers_Are_Specified()
         {
             //Arrange
@@ -41,10 +40,10 @@ namespace Extensions.Tests
             object output = ValidationExtensions.ValidateAndConvert<int>(input.ToString(), ValidIntegers);
 
             //Assert
-            Assert.AreEqual(input, output);
+            AssertEqual(input, output);
         }
 
-        [TestMethod]
+        [Fact]
         public void Integers_Are_In_Range()
         {
             //Arrange
@@ -54,10 +53,10 @@ namespace Extensions.Tests
             object output = ValidationExtensions.ValidateAndConvert<int>(input.ToString(), min: DEFAULT_MIN, max: DEFAULT_MAX);
 
             //Assert
-            Assert.AreEqual(input, output);
+            AssertEqual(input, output);
         }
 
-        [TestMethod]
+        [Fact]
         public void Integers_Match_Pattern()
         {
             //Arrange
@@ -68,10 +67,10 @@ namespace Extensions.Tests
             object output = ValidationExtensions.ValidateAndConvert<int>(input.ToString(), pattern: pattern);
 
             //Assert
-            Assert.AreEqual(input, output);
+            AssertEqual(input, output);
         }
 
-        [TestMethod]
+        [Fact]
         public void Doubles_Are_Specified()
         {
             //Arrange
@@ -81,10 +80,10 @@ namespace Extensions.Tests
             object output = ValidationExtensions.ValidateAndConvert<double>(input.ToString(), ValidDoubles);
 
             //Assert
-            Assert.AreEqual(input, output);
+            AssertEqual(input, output);
         }
 
-        [TestMethod]
+        [Fact]
         public void Doubles_Are_In_Range()
         {
             //Arrange
@@ -94,10 +93,10 @@ namespace Extensions.Tests
             object output = ValidationExtensions.ValidateAndConvert<double>(input.ToString(), min: DEFAULT_MIN, max: DEFAULT_MAX);
 
             //Assert
-            Assert.AreEqual(input, output);
+            AssertEqual(input, output);
         }
 
-        [TestMethod]
+        [Fact]
         public void Doubles_Match_Pattern()
         {
             //Arrange
@@ -108,10 +107,10 @@ namespace Extensions.Tests
             object output = ValidationExtensions.ValidateAndConvert<double>(input.ToString(), pattern: pattern);
 
             //Assert
-            Assert.AreEqual(input, output);
+            AssertEqual(input, output);
         }
 
-        [TestMethod]
+        [Fact]
         public void Floats_Are_Specified()
         {
             //Arrange
@@ -121,10 +120,10 @@ namespace Extensions.Tests
             object output = ValidationExtensions.ValidateAndConvert<float>(input.ToString(), ValidFloats);
 
             //Assert
-            Assert.AreEqual(input, output);
+            AssertEqual(input, output);
         }
 
-        [TestMethod]
+        [Fact]
         public void Floats_Are_In_Range()
         {
             //Arrange
@@ -134,10 +133,10 @@ namespace Extensions.Tests
             object output = ValidationExtensions.ValidateAndConvert<float>(input.ToString(), min: DEFAULT_MIN, max: DEFAULT_MAX);
 
             //Assert
-            Assert.AreEqual(input, output);
+            AssertEqual(input, output);
         }
 
-        [TestMethod]
+        [Fact]
         public void Floats_Match_Pattern()
         {
             //Arrange
@@ -148,7 +147,7 @@ namespace Extensions.Tests
             object output = ValidationExtensions.ValidateAndConvert<float>(input.ToString(), pattern: pattern);
 
             //Assert
-            Assert.AreEqual(input, output);
+            AssertEqual(input, output);
         }
     }
 }
