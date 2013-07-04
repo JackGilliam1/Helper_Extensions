@@ -1,0 +1,3 @@
+Non numeric strings no longer throw exceptions in ConvertTo if they have a Parse method
+
+Reorganized methods to their own Ext classes

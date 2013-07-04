@@ -1,0 +1,47 @@
+QuestionExts:
+Comments on these methods clarified:
+IsLastIn
+SameAs
+IsLargerThan
+IsSmallerThan
+HasMethod
+HasItems
+IsNumberType (IsNumeric)
+IsEmpty
+IsSomething
+IsZero
+IsOppositeOf
+HasLastIndexOf
+
+Altered Methods:
+HasMethod now checks for a null name passed in
+SameAs now uses both Equals and ==
+IsEmpty can no longer throw a null pointer exception
+IsNumberType was renamed to IsNumeric
+IsNumeric is now generic
+IsNumeric can no longer throw a null pointer exception
+IsSomething is now generic
+IsLastIndex renamed to HasLastIndexOf
+HasLastIndexOf parameters were reordered
+HasLastIndexOf is now generic
+IsLastIn renamed to HasLastOf
+HasLastOf parameters reordered
+
+Removed dependancy between a few methods
+
+Removed Methods:
+IsType - did the same calculations as SameAs
+
+
+
+ConsoleExts:
+Comments on these methods clarified:
+PromptFor(PromptWith)
+
+Altered Methods:
+Changed method name PromptFor to PromptWith
+
+
+ValidationExts:
+Comments on these methods clarified:
+ValidateAndConvert

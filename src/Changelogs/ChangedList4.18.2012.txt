@@ -1,0 +1,43 @@
+Project:
+	Changed Default Namespaces
+	Reorganized the classes
+	
+Classes:
+	Added classes:
+		ObjectExts
+
+	Altered classes:
+		QuestionExts renamed to QuestionsExts
+		Renamed a few function classes to their file names
+			TextExts
+			QuestionExts
+			ObjectExts
+			CollectionExts
+			TypeExts
+Methods:
+	Added within QuestionExts:
+		HasItems - determines if a sequence contains items
+	Altered within QuestionExts:
+		HasMethod
+			It can now be used on objects as well as types
+		SameAs
+			objA can no longer be null
+		IsLastIn
+			item can no longer be null and source can no longer be null
+			and must also contain items
+	Altered within ConsoleExts
+		Print for sequences
+			optimized the way it prints, added options to print on a new line or to number the lists
+	Added within ObjectExts:
+		ToMessages -  converts a sequence to a sequence of strings
+		NonNullof - Out of two objects it gives the one that is not null
+
+Comments:
+	Comments clarified in:
+		QuestionsExts
+		ConsoleExts
+
+Tests:
+	Tests were created for QuestionExts
+
+	Tests were created for ObjectExts
