@@ -3,103 +3,77 @@ using Extensions.Core.Collections;
 
 using SharpTestsEx;
 using Xunit;
+using Xunit.Extensions;
 
 namespace Extensions.Tests.Collections
 {
     public class CollectionExtensionsTests
     {
-        [Fact]
-        public void CollectionsSameCount()
+
+        [Theory,
+        InlineData(0, 0, 0, 0),
+        InlineData(0, 1, 0, 2),
+        InlineData(0, 1, 2, 0),
+        InlineData(2, 0, 8, 0),
+        InlineData(1, 0, 1, 0),
+        InlineData(1, 2, 1, 2),
+        InlineData(2, 2, 2, 2),
+        InlineData(10, 2, 10, 2)]
+        public void CollectionContainingCollectionsSameCount(
+            int numberOfLevelsOne, int objectsPerLevelOne, int numberOfLevelsTwo, int objectsPerLevelTwo)
         {
-            var firstCollection = new List<object>()
-            {
-                new object(),
-                new object()
-            };
+            var firstCollection = GetTestCollection(numberOfLevelsOne, objectsPerLevelOne);
 
-            var secondCollection = new List<object>()
-            {
-                new object(),
-                new object()
-            };
+            var secondCollection = GetTestCollection(numberOfLevelsTwo, objectsPerLevelTwo);
 
-            firstCollection.SameCount(secondCollection).Should("The Collections have the same count, but were rejected").Be.True();
+            firstCollection.SameCount(secondCollection)
+                .Should("The Collections of Collections have the same count, but were rejected").Be.True();
         }
 
-        [Fact]
-        public void CollectionsDifferentCount()
+        [Theory,
+        InlineData(0, 1, 2, 1),
+        InlineData(0, 1, 2, 3),
+        InlineData(2, 2, 2, 3),
+        InlineData(2, 1, 2, 2),
+        InlineData(2, 2, 2, 1),
+        InlineData(2, 0, 2, 1),
+        InlineData(1, 2, 2, 2),
+        InlineData(2, 2, 1, 2),
+        InlineData(1, 1, 2, 0)]
+        public void CollectionsContainingCollectionsDifferentCount(
+            int numberOfLevelsOne, int objectsPerLevelOne, int numberOfLevelsTwo, int objectsPerLevelTwo)
         {
-            var firstCollection = new List<object>()
-            {
-                new object(),
-                new object()
-            };
+            var firstCollection = GetTestCollection(numberOfLevelsOne, objectsPerLevelOne);
 
-            var secondCollection = new List<object>()
-            {
-                new object()
-            };
+            var secondCollection = GetTestCollection(numberOfLevelsTwo, objectsPerLevelTwo);
 
-            firstCollection.SameCount(secondCollection).Should("The Collections have different counts, but were accepted").Be.False();
+            firstCollection.SameCount(secondCollection)
+                .Should("The Collections of Collections have different counts, but were accepted").Be.False();
         }
 
-        [Fact]
-        public void CollectionContainingCollectionsSameCount()
+        public ICollection<object> GetTestCollection(int numberOfLevels, int objectsPerLevel, int currentLevel = 1)
         {
-            var firstCollection = new List<IEnumerable<object>>()
+            var parentCollection = new List<object>();
+            if (numberOfLevels > 0 && objectsPerLevel > 0 && currentLevel > 0)
             {
-                new List<object>() {
-                    new object(),
-                    new object()
-                },
-                new List<object>() {
-                    new object(),
-                    new object()
+                if (currentLevel < numberOfLevels)
+                {
+                    currentLevel += 1;
+                    for (int i = 0; i < objectsPerLevel; i++)
+                    {
+                        var childCollection = GetTestCollection(numberOfLevels, objectsPerLevel, currentLevel);
+                        parentCollection.Add(childCollection);
+                    }
                 }
-            };
-
-            var secondCollection = new List<IEnumerable<object>>()
-            {
-                new List<object>() {
-                    new object(),
-                    new object()
-                },
-                new List<object>() {
-                    new object(),
-                    new object()
+                else
+                {
+                    for (int i = 0; i < objectsPerLevel; i++)
+                    {
+                        parentCollection.Add(new object());
+                    }
                 }
-            };
-
-            firstCollection.SameCount(secondCollection).Should("The Collections of Collections have the same count, but were rejected").Be.True();
-        }
-
-        [Fact]
-        public void CollectionsContainingCollectionsDifferentCount()
-        {
-            var firstCollection = new List<IEnumerable<object>>()
-            {
-                new List<object>() {
-                    new object(),
-                    new object()
-                },
-                new List<object>() {
-                    new object()
-                }
-            };
-
-            var secondCollection = new List<IEnumerable<object>>()
-            {
-                new List<object>() {
-                    new object(),
-                    new object()
-                },
-                new List<object>() {
-                    new object(),
-                    new object()
-                }
-            };
-
-            firstCollection.SameCount(secondCollection).Should("The Collections of Collections have different counts, but were accepted").Be.False();
+            }
+            return parentCollection;
         }
     }
 }

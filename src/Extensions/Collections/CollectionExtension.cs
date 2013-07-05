@@ -20,27 +20,46 @@ namespace Extensions.Core.Collections
                 {
                     for (int i = 0; i < numberOfItemsInFirstCollection; i++)
                     {
-                        var firstCollection = collectionOne.Get(i);
-                        if (firstCollection is ICollection<dynamic>)
+                        var firstItem = collectionOne.Get(i);
+                        var secondItem = collectionTwo.Get(i);
+                        if (firstItem != null && secondItem != null)
                         {
-                            var secondCollection = collectionTwo.Get(i);
-                            if (secondCollection  is ICollection<dynamic>)
+                            ICollection<dynamic> firstCollection;
+                            if ((firstCollection = firstItem as ICollection<dynamic>) != null)
                             {
-                                if (firstCollection.GetType() == secondCollection.GetType())
+                                ICollection<dynamic> secondCollection;
+                                if ((secondCollection = secondItem as ICollection<dynamic>) != null)
                                 {
-                                    hasSameCount = (firstCollection as ICollection<dynamic>).SameCount(secondCollection as ICollection<dynamic>);
+                                    if (firstItem.GetType() == secondItem.GetType())
+                                    {
+                                        hasSameCount = firstCollection.SameCount(secondCollection);
+                                    }
+                                    else
+                                    {
+                                        hasSameCount = false;
+                                    }
                                 }
                                 else
                                 {
                                     hasSameCount = false;
-                                    i = numberOfItemsInFirstCollection;
                                 }
                             }
-                            else
+                            else if (secondItem is ICollection<dynamic>)
                             {
                                 hasSameCount = false;
-                                i = numberOfItemsInFirstCollection;
                             }
+                        }
+                        else if(firstItem == null && secondItem != null)
+                        {
+                            hasSameCount = false;
+                        }
+                        else if (firstItem != null && secondItem == null)
+                        {
+                            hasSameCount = false;
+                        }
+                        else
+                        {
+                            hasSameCount = true;
                         }
                         if (!hasSameCount)
                         {
