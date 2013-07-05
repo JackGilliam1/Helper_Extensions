@@ -36,25 +36,6 @@ namespace Extensions.Core.Numeric
         }
 
         /// <summary>
-        /// Indicates whether <paramref name="value"/> is in the range of <paramref name="min"/> and <paramref name="max"/>
-        /// </summary>
-        /// <typeparam name="NumberType">The type of <paramref name="value"/></typeparam>
-        /// <param name="value">Number to check</param>
-        /// <param name="min"><paramref name="value"/> must be at or above this value</param>
-        /// <param name="max"><paramref name="value"/> must be at or below this value</param>
-        /// <returns>True if the <paramref name="value"/> is within the range of <paramref name="min"/> and <paramref name="max"/></returns>
-        public static bool InRange<NumberType>(this NumberType value, double min, double max)
-        {
-            bool inRange = false;
-            if (NumericExtensions.IsNumeric(value))
-            {
-                double convertedVal = Double.Parse(value.ToString());
-                inRange = convertedVal >= min && convertedVal <= max;
-            }
-            return inRange;
-        }
-
-        /// <summary>
         /// Indicates whether <paramref name="value"/> is of a numeric type
         /// </summary>
         /// <typeparam name="T">The type of <paramref name="value"/></typeparam>

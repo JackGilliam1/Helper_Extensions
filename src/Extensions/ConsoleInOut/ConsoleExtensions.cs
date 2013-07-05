@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using Extensions.Core.Collections;
+using Extensions.Core.Conversion;
 using Extensions.Core.TextFunctions;
 
 namespace Extensions.Core.ConsoleInOut
@@ -73,8 +74,9 @@ namespace Extensions.Core.ConsoleInOut
         /// <param name="removeWhiteSpaces">If true, all whitespaces will be removed before matching the input to the specified <paramref name="pattern"/></param>
         /// <param name="onNewLine">If true, the prompt will be printed on a new line</param>
         /// <returns>A value that matches the specified <paramref name="pattern"/></returns>
-        public static TDataType PromptFor<TDataType>(string prompt, string pattern, bool removeWhiteSpaces = false, bool onNewLine = true)
+        public static ConvertedValue<TDataType> PromptFor<TDataType>(string prompt, string pattern, bool removeWhiteSpaces = false, bool onNewLine = true)
         {
+            ConvertedValue<TDataType> value;
             string input = null;
             do
             {
@@ -97,34 +99,35 @@ namespace Extensions.Core.ConsoleInOut
                     continue;
                 }
             } while (input == null);
-            TDataType value = input.ConvertTo<TDataType>();
+            value = input.ConvertTo<TDataType>();
             return value;
         }
+
         /// <summary>
         /// Prints the specified <paramref name="prompt"/> and the specified <paramref name="choices"/>, then prompts for input matching it to one of the choices
         /// </summary>
         /// <typeparam name="TDataType">The type of data expected to be returned</typeparam>
         /// <param name="prompt">The text to print to the console</param>
         /// <param name="choices">The choices to choose from</param>
+        /// <param name="displayVertically">Displays the question choices vertically, versus horizontally</param>
         /// <param name="displayNumbered">If true, the choices will be printed in an ordered list, else in an unordered list</param>
         /// <param name="onNewLine">If true, the prompt will be printed on a new line</param>
         /// <returns>The choice chosen</returns>
-        public static TDataType PromptFor<TDataType>(string prompt, IEnumerable<TDataType> choices, bool displayVertically = true, bool displayNumbered = false, bool onNewLine = true)
+        public static ConvertedValue<TDataType> PromptFor<TDataType>(string prompt, IEnumerable<TDataType> choices, bool displayVertically = true, bool displayNumbered = false, bool onNewLine = true)
         {
-            string input = null;
-            int minValue = 1;
+            const int minValue = 1;
             int maxValue = choices.Count();
-            int chosenIndex = minValue - 1;
-            TDataType chosenValue = default(TDataType);
+            var chosenValue = new ConvertedValue<TDataType>();
             do
             {
                 Write(prompt, onNewLine);
                 Write(choices, displayVertically, displayNumbered);
-                input = ReadLine();
+                string input = ReadLine();
                 if (!String.IsNullOrWhiteSpace(input))
                 {
                     if (displayNumbered)
                     {
+                        int chosenIndex;
                         if (!Int32.TryParse(input, out chosenIndex))
                         {
                             Write(ErrorType.NumberFormat);
@@ -137,7 +140,7 @@ namespace Extensions.Core.ConsoleInOut
                             input = null;
                             continue;
                         }
-                        chosenValue = choices.Get(chosenIndex);
+                        chosenValue = new ConvertedValue<TDataType>(choices.Get(chosenIndex));
                     }
                     else
                     {
@@ -150,7 +153,7 @@ namespace Extensions.Core.ConsoleInOut
                     input = null;
                     continue;
                 }
-            } while (chosenValue == null || (chosenValue != null && !choices.Contains(chosenValue)));
+            } while (!chosenValue.HasValue || (!choices.Contains(chosenValue.Value)));
             return chosenValue;
         }
         /// <summary>
@@ -162,20 +165,21 @@ namespace Extensions.Core.ConsoleInOut
         /// <param name="max">The maximum value that can be chosen</param>
         /// <param name="onNewLine">If true, the prompt will be printed on a new line</param>
         /// <returns>A value within the specified range: [<paramref name="min"/>, <paramref name="max"/>]</returns>
-        public static TDataType PromptFor<TDataType>(string prompt, TDataType min, TDataType max, bool onNewLine = true) where TDataType : class, IComparable
+        public static ConvertedValue<TDataType> PromptFor<TDataType>(string prompt, TDataType min, TDataType max, bool onNewLine = true) where TDataType : class, IComparable
         {
-            TDataType value = default(TDataType);
+            ConvertedValue<TDataType> value;
             string input = null;
             do
             {
                 Write(prompt, onNewLine);
                 input = ReadLine();
-                if ((value = input.ConvertTo<TDataType>()).IsNull())
+                value = input.ConvertTo<TDataType>();
+                if (!value.HasValue)
                 {
                     Write(ErrorType.NumberFormat);
                     continue;
                 }
-                else if (!value.IsBetween<TDataType>(min, max))
+                else if (!value.Value.IsBetween<TDataType>(min, max))
                 {
                     Write(ErrorType.OutOfRange);
                     continue;

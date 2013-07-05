@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using Extensions.Core.Conversion;
 using Extensions.Core.TextFunctions;
 using Xunit;
+using Xunit.Extensions;
 
 namespace Extensions.Tests
 {
@@ -30,124 +32,49 @@ namespace Extensions.Tests
             3.3f
         };
 
-        [Fact]
-        public void Integers_Are_Specified()
+        [Theory, InlineData("1", null, 1), InlineData("2", "2", 2)]
+        public void Valid_Integers_Accepted(string input, string pattern, int expected)
         {
             //Arrange
-            int input = 1;
+            ConvertedValue<int> convertedValue;
 
             //Act
-            object output = ValidationExtensions.ValidateAndConvert<int>(input.ToString(), ValidIntegers);
+            input.ValidateAndConvert<int>(out convertedValue, choices:ValidIntegers, min:DEFAULT_MIN, max:DEFAULT_MAX, pattern:pattern);
 
             //Assert
-            AssertEqual(input, output);
+            AssertTrue(convertedValue.HasValue);
+            AssertEqual(convertedValue.Value, expected);
         }
 
-        [Fact]
-        public void Integers_Are_In_Range()
+
+        [Theory, InlineData("1.1", null, 1.1), InlineData("2.0", null, 2.0), InlineData("1.232", "1\\.232", 1.232)]
+        public void Valid_Doubles_Accepted(string input, string pattern, double expected)
         {
             //Arrange
-            int input = 2;
+            ConvertedValue<double> convertedValue;
 
             //Act
-            object output = ValidationExtensions.ValidateAndConvert<int>(input.ToString(), min: DEFAULT_MIN, max: DEFAULT_MAX);
+            input.ValidateAndConvert<double>(out convertedValue, choices: ValidDoubles, min: DEFAULT_MIN, max: DEFAULT_MAX, pattern: pattern);
 
             //Assert
-            AssertEqual(input, output);
+            AssertTrue(convertedValue.HasValue);
+            AssertEqual(convertedValue.Value, expected);
         }
+        
 
-        [Fact]
-        public void Integers_Match_Pattern()
+        [Theory, InlineData("1.1", null, 1.1), InlineData("2.0", null, 2.0), InlineData("1.232", "1\\.232", 1.232)]
+        public void Valid_Floats_Accepted(string input, string pattern, double expected)
         {
             //Arrange
-            int input = 123;
-            string pattern = "123";
+            float expectedFloat = (float)expected;
+            ConvertedValue<float> convertedValue;
 
             //Act
-            object output = ValidationExtensions.ValidateAndConvert<int>(input.ToString(), pattern: pattern);
+            input.ValidateAndConvert<float>(out convertedValue, choices: ValidFloats, min: DEFAULT_MIN, max: DEFAULT_MAX, pattern: pattern);
 
             //Assert
-            AssertEqual(input, output);
-        }
-
-        [Fact]
-        public void Doubles_Are_Specified()
-        {
-            //Arrange
-            double input = 1.1;
-
-            //Act
-            object output = ValidationExtensions.ValidateAndConvert<double>(input.ToString(), ValidDoubles);
-
-            //Assert
-            AssertEqual(input, output);
-        }
-
-        [Fact]
-        public void Doubles_Are_In_Range()
-        {
-            //Arrange
-            double input = 2.0;
-
-            //Act
-            object output = ValidationExtensions.ValidateAndConvert<double>(input.ToString(), min: DEFAULT_MIN, max: DEFAULT_MAX);
-
-            //Assert
-            AssertEqual(input, output);
-        }
-
-        [Fact]
-        public void Doubles_Match_Pattern()
-        {
-            //Arrange
-            double input = 1.232;
-            string pattern = "1\\.232";
-
-            //Act
-            object output = ValidationExtensions.ValidateAndConvert<double>(input.ToString(), pattern: pattern);
-
-            //Assert
-            AssertEqual(input, output);
-        }
-
-        [Fact]
-        public void Floats_Are_Specified()
-        {
-            //Arrange
-            float input = 1.1f;
-
-            //Act
-            object output = ValidationExtensions.ValidateAndConvert<float>(input.ToString(), ValidFloats);
-
-            //Assert
-            AssertEqual(input, output);
-        }
-
-        [Fact]
-        public void Floats_Are_In_Range()
-        {
-            //Arrange
-            float input = 2.0f;
-
-            //Act
-            object output = ValidationExtensions.ValidateAndConvert<float>(input.ToString(), min: DEFAULT_MIN, max: DEFAULT_MAX);
-
-            //Assert
-            AssertEqual(input, output);
-        }
-
-        [Fact]
-        public void Floats_Match_Pattern()
-        {
-            //Arrange
-            float input = 1.223f;
-            string pattern = "1\\.223";
-
-            //Act
-            object output = ValidationExtensions.ValidateAndConvert<float>(input.ToString(), pattern: pattern);
-
-            //Assert
-            AssertEqual(input, output);
+            AssertTrue(convertedValue.HasValue);
+            AssertEqual(convertedValue.Value, expectedFloat);
         }
     }
 }

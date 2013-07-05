@@ -1,6 +1,8 @@
-﻿using Extensions.Core.TextFunctions;
+﻿using Extensions.Core.Conversion;
+using Extensions.Core.TextFunctions;
 using System.Collections.Generic;
 using Xunit;
+using Xunit.Extensions;
 
 namespace Extensions.Tests
 {
@@ -30,202 +32,126 @@ namespace Extensions.Tests
             3.3f
         };
 
-        [Fact]
-        public void Integers_Containing_Letters_Caught()
+        [Theory, InlineData("5454a45hsdas24234"), InlineData("-1"), InlineData("4")]
+        public void Invalid_Integers_Give_Errors(string input)
         {
             //Arrange
-            string input = "5454a45hsdas24234";
+            ConvertedValue<int> convertedValue;
 
             //Act
-            object output = ValidationExtensions.ValidateAndConvert<int>(input.ToString());
+            input.ValidateAndConvert<int>(out convertedValue, min: DEFAULT_MIN, max: DEFAULT_MAX);
 
             //Assert
-            AssertNotEqual(input, output);
+            AssertFalse(convertedValue.HasValue);
+            AssertNotEqual(convertedValue.Value, input);
+        }
+        [Theory, InlineData("1", "123")]
+        public void Integers_Not_Matching_Pattern_Give_Errors(string input, string pattern)
+        {
+            //Arrange
+            ConvertedValue<int> convertedValue;
+
+            //Act
+            input.ValidateAndConvert<int>(out convertedValue, pattern: pattern);
+
+            //Assert
+            AssertFalse(convertedValue.HasValue);
+            AssertNotEqual(convertedValue.Value, input);
+        }
+        [Theory, InlineData("4")]
+        public void Unspecified_Integers_Give_Errors(string input)
+        {
+            //Arrange
+            ConvertedValue<int> convertedValue;
+
+            //Act
+            input.ValidateAndConvert<int>(out convertedValue, choices: ValidIntegers, choicesAreRequired: true);
+
+            //Assert
+            AssertFalse(convertedValue.HasValue);
+            AssertNotEqual(convertedValue.Value, input);
         }
 
-        [Fact]
-        public void Integers_Not_Matching_Pattern_Caught()
+
+        [Theory, InlineData("5454a45hsdas24234"), InlineData("0.9"), InlineData("3.1")]
+        public void Invalid_Doubles_Give_Errors(string input)
         {
             //Arrange
-            int input = 1;
-            string pattern = "123";
+            ConvertedValue<double> convertedValue;
 
             //Act
-            object output = ValidationExtensions.ValidateAndConvert<int>(input.ToString(), pattern: pattern);
+            object output = input.ValidateAndConvert<double>(out convertedValue, min: DEFAULT_MIN, max: DEFAULT_MAX);
 
             //Assert
-            AssertNotEqual(input, output);
+            AssertFalse(convertedValue.HasValue);
+            AssertNotEqual(convertedValue.Value, input);
+        }
+        [Theory, InlineData("1.333", "1.232")]
+        public void Doubles_Not_Matching_Pattern_Give_Errors(string input, string pattern)
+        {
+            //Arrange
+            ConvertedValue<double> convertedValue;
+
+            //Act
+            object output = input.ValidateAndConvert<double>(out convertedValue, pattern: pattern);
+
+            //Assert
+            AssertFalse(convertedValue.HasValue);
+            AssertNotEqual(convertedValue.Value, input);
+        }
+        [Theory, InlineData("1.2")]
+        public void Unspecified_Doubles_Give_Errors(string input)
+        {
+            //Arrange
+            ConvertedValue<double> convertedValue;
+
+            //Act
+            object output = input.ValidateAndConvert<double>(out convertedValue, choices: ValidDoubles, choicesAreRequired: true);
+
+            //Assert
+            AssertFalse(convertedValue.HasValue);
+            AssertNotEqual(convertedValue.Value, input);
         }
 
-        [Fact]
-        public void Integers_Below_Range_Caught()
+
+        [Theory, InlineData("5454a45hsdas24234"), InlineData("0.9"), InlineData("3.1")]
+        public void Invalid_Floats_Give_Errors(string input)
         {
             //Arrange
-            int input = -1;
+            ConvertedValue<float> convertedValue;
 
             //Act
-            object output = ValidationExtensions.ValidateAndConvert<int>(input.ToString(), min: DEFAULT_MIN, max: DEFAULT_MAX);
+            object output = input.ValidateAndConvert<float>(out convertedValue, min: DEFAULT_MIN, max: DEFAULT_MAX);
 
             //Assert
-            AssertNotEqual(input, output);
+            AssertFalse(convertedValue.HasValue);
+            AssertNotEqual(convertedValue.Value, input);
         }
-
-        [Fact]
-        public void Integers_Above_Range_Caught()
+        [Theory, InlineData("1.333", "1.232")]
+        public void Floats_Not_Matching_Pattern_Give_Errors(string input, string pattern)
         {
             //Arrange
-            int input = 4;
+            ConvertedValue<float> convertedValue;
 
             //Act
-            object output = ValidationExtensions.ValidateAndConvert<int>(input.ToString(), min: DEFAULT_MIN, max: DEFAULT_MAX);
+            object output = input.ValidateAndConvert<float>(out convertedValue, pattern: pattern);
 
             //Assert
-            AssertNotEqual(input, output);
+            AssertFalse(convertedValue.HasValue);
+            AssertNotEqual(convertedValue.Value, input);
         }
-
-        [Fact]
-        public void Integers_Unspecified_Caught()
+        [Theory, InlineData("1.2")]
+        public void Unspecified_Floats_Give_Errors(string input)
         {
             //Arrange
-            int input = 4;
+            ConvertedValue<float> convertedValue;
 
             //Act
-            object output = ValidationExtensions.ValidateAndConvert<int>(text: input.ToString(), choices: ValidIntegers, choicesAreRequired: true);
+            object output = input.ValidateAndConvert<float>(out convertedValue, choices: ValidFloats, choicesAreRequired: true);
 
             //Assert
-            AssertNotEqual(input, output);
-        }
-
-        [Fact]
-        public void Doubles_Containing_Letters_Caught()
-        {
-            //Arrange
-            string input = "5454a45hsdas24234";
-
-            //Act
-            object output = ValidationExtensions.ValidateAndConvert<double>(input.ToString());
-
-            //Assert
-            AssertNotEqual(input, output);
-        }
-
-        [Fact]
-        public void Doubles_Not_Matching_Pattern_Caught()
-        {
-            //Arrange
-            double input = 1.333;
-            string pattern = "1.232";
-
-            //Act
-            object output = ValidationExtensions.ValidateAndConvert<double>(input.ToString(), pattern: pattern);
-
-            //Assert
-            AssertNotEqual(input, output);
-        }
-
-        [Fact]
-        public void Doubles_Below_Range_Caught()
-        {
-            //Arrange
-            double input = 0.9;
-
-            //Act
-            object output = ValidationExtensions.ValidateAndConvert<double>(input.ToString(), min: DEFAULT_MIN, max: DEFAULT_MAX);
-
-            //Assert
-            AssertNotEqual(input, output);
-        }
-
-        [Fact]
-        public void Doubles_Above_Range_Caught()
-        {
-            //Arrange
-            double input = 3.1;
-
-            //Act
-            object output = ValidationExtensions.ValidateAndConvert<double>(input.ToString(), min: DEFAULT_MIN, max: DEFAULT_MAX);
-
-            //Assert
-            AssertNotEqual(input, output);
-        }
-
-        [Fact]
-        public void Doubles_Unspecified_Caught()
-        {
-            //Arrange
-            double input = 1.2;
-
-            //Act
-            object output = ValidationExtensions.ValidateAndConvert<double>(text: input.ToString(), choices: ValidDoubles, choicesAreRequired: true);
-
-            //Assert
-            AssertNotEqual(input, output);
-        }
-
-        [Fact]
-        public void Floats_Containing_Letters_Caught()
-        {
-            //Arrange
-            string input = "5454a45hsdas24234";
-
-            //Act
-            object output = ValidationExtensions.ValidateAndConvert<float>(input.ToString());
-
-            //Assert
-            AssertNotEqual(input, output);
-        }
-
-        [Fact]
-        public void Floats_Not_Matching_Pattern_Caught()
-        {
-            //Arrange
-            float input = 1.333f;
-            string pattern = "1.223";
-
-            //Act
-            object output = ValidationExtensions.ValidateAndConvert<float>(input.ToString(), pattern: pattern);
-
-            //Assert
-            AssertNotEqual(input, output);
-        }
-
-        [Fact]
-        public void Floats_Below_Range_Caught()
-        {
-            //Arrange
-            float input = 0.9f;
-
-            //Act
-            object output = ValidationExtensions.ValidateAndConvert<float>(input.ToString(), min: DEFAULT_MIN, max: DEFAULT_MAX);
-
-            //Assert
-            AssertNotEqual(input, output);
-        }
-
-        [Fact]
-        public void Floats_Above_Range_Caught()
-        {
-            //Arrange
-            float input = 3.1f;
-
-            //Act
-            object output = ValidationExtensions.ValidateAndConvert<float>(input.ToString(), min: DEFAULT_MIN, max: DEFAULT_MAX);
-
-            //Assert
-            AssertNotEqual(input, output);
-        }
-
-        [Fact]
-        public void Floats_Unspecified_Caught()
-        {
-            //Arrange
-            float input = 1.2f;
-
-            //Act
-            object output = ValidationExtensions.ValidateAndConvert<float>(text: input.ToString(), choices: ValidFloats, choicesAreRequired: true);
-
-            //Assert
-            AssertNotEqual(input, output);
+            AssertFalse(convertedValue.HasValue);
+            AssertNotEqual(convertedValue.Value, input);
         }
     }
 }

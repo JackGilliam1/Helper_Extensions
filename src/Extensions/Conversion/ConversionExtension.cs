@@ -94,6 +94,12 @@ namespace Extensions.Core.Conversion
                 converted = GetConvertedValue<bool>();
             }
             return converted;
+        }
+
+        private static ConvertedValue<string> ConvertValue(string defaultValue, string value)
+        {
+            var convertedValue = value;
+            return new ConvertedValue<string>(value);
         } 
 
         private static ConvertedValue<object> ConvertValue(object defaultValue, string value)

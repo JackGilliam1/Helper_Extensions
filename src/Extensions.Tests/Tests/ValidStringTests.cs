@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using Extensions.Core.Conversion;
 using Extensions.Core.TextFunctions;
 using Xunit;
+using Xunit.Extensions;
 
 namespace Extensions.Tests
 {
@@ -12,31 +14,18 @@ namespace Extensions.Tests
             "ValidAnswer2"
         };
 
-        [Fact]
-        public void Strings_Specified_Are_Returned()
+        [Theory, InlineData("ValidAnswer1", null), InlineData("Hahah", "H[a]ha(\\w)")]
+        public void Valid_Strings_Accepted(string input, string pattern)
         {
             //Arrange
-            string input = "ValidAnswer1";
+            ConvertedValue<string> convertedValue;
 
             //Act
-            object output = ValidationExtensions.ValidateAndConvert<string>(input, ValidStrings);
+            object output = input.ValidateAndConvert(out convertedValue, choices:ValidStrings, pattern:pattern);
 
             //Assert
-            AssertEqual(input, output);
-        }
-
-        [Fact]
-        public void Strings_Matching_Regex_Are_Returned()
-        {
-            //Arrange
-            string input = "Hahah";
-            string pattern = "H[a]ha(\\w)";
-
-            //Act
-            object output = ValidationExtensions.ValidateAndConvert<string>(input, pattern: pattern);
-
-            //Assert
-            AssertEqual(input, output);
+            AssertTrue(convertedValue.HasValue);
+            AssertEqual(convertedValue.Value, input);
         }
     }
 }

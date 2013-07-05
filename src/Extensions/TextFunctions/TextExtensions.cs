@@ -30,35 +30,35 @@ namespace Extensions.Core.TextFunctions
             return canConvertToNumber;
         }
 
-        /// <summary>
-        /// Converts <paramref name="data"/> to <paramref name="DataType"/>
-        /// </summary>
-        /// <typeparam name="DataType">The type to convert <paramref name="data"/> to</typeparam>
-        /// <param name="data">The text to convert</param>
-        /// <returns><paramref name="data"/> converted into the type <paramref name="DataType"/></returns>
-        public static dynamic ConvertTo<DataType>(this string data)
-        {
-            dynamic resultingValue = null;
-            var convertType = typeof(DataType);
-            //DataType resultingValue = default(DataType);
-            double temp;
-            if (TypeExtensions.HasMethod(convertType, "Parse")
-                && Double.TryParse(data, out temp))
-            {
-                resultingValue = TypeExtensions.Meth(convertType, "Parse")
-                    .Invoke(convertType, new[] { data })
-                    .CastAs<DataType>();
-            }
-            else if (!TypeExtensions.HasMethod(convertType, "Parse"))
-            {
-                resultingValue = data.CastAs<DataType>();
-            }
-            else
-            {
-                resultingValue = data + " is not a valid number!";
-            }
-            return resultingValue;
-        }
+        ///// <summary>
+        ///// Converts <paramref name="data"/> to <paramref name="DataType"/>
+        ///// </summary>
+        ///// <typeparam name="TDataType">The type to convert <paramref name="data"/> to</typeparam>
+        ///// <param name="data">The text to convert</param>
+        ///// <returns><paramref name="data"/> converted into the type <paramref name="DataType"/></returns>
+        //public static dynamic ConvertTo<TDataType>(this string data)
+        //{
+        //    dynamic resultingValue = null;
+        //    var convertType = typeof(TDataType);
+        //    //DataType resultingValue = default(DataType);
+        //    double temp;
+        //    if (TypeExtensions.HasMethod(convertType, "Parse")
+        //        && Double.TryParse(data, out temp))
+        //    {
+        //        resultingValue = TypeExtensions.Meth(convertType, "Parse")
+        //            .Invoke(convertType, new[] { data })
+        //            .CastAs<TDataType>();
+        //    }
+        //    else if (!TypeExtensions.HasMethod(convertType, "Parse"))
+        //    {
+        //        resultingValue = data.CastAs<TDataType>();
+        //    }
+        //    else
+        //    {
+        //        resultingValue = data + " is not a valid number!";
+        //    }
+        //    return resultingValue;
+        //}
 
         /// <summary>
         /// Indicates whether <paramref name="text"/> matches the pattern completely

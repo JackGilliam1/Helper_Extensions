@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using Extensions.Core.Conversion;
 using Extensions.Core.TextFunctions;
 using Xunit;
+using Xunit.Extensions;
 
 
 namespace Extensions.Tests
@@ -13,59 +15,46 @@ namespace Extensions.Tests
             "ValidAnswer2"
         };
 
-        private const string expected = "error";
-
-        [Fact]
-        public void Unspecified_String_Input_Caught()
+        [Theory, InlineData("Yay")]
+        public void Unspecified_Strings_Give_Errors(string input)
         {
             //Arrange
-            string input = "Yay";
+            ConvertedValue<string> convertedValue;
 
             //Act
-            object output = ValidationExtensions.ValidateAndConvert<string>(input, choices:ValidStrings, choicesAreRequired: true);
+            input.ValidateAndConvert<string>(out convertedValue, choices:ValidStrings, choicesAreRequired: true);
 
             //Assert
-            AssertTrue(output.ToString().ToLower().Contains(expected));
+            AssertFalse(convertedValue.HasValue);
+            AssertNotEqual(convertedValue.Value, input);
         }
 
-        [Fact]
-        public void String_Input_Not_Matching_Regex_Caught()
+        [Theory, InlineData("Haha", "HaYa")]
+        public void Strings_Not_Matching_Pattern_Give_Errors(string input, string pattern)
         {
             //Arrange
-            string input = "Haha";
-            string pattern = "HaYa";
+            ConvertedValue<string> convertedValue;
 
             //Act
-            object output = ValidationExtensions.ValidateAndConvert<string>(input, pattern: pattern);
+            input.ValidateAndConvert<string>(out convertedValue, pattern: pattern);
 
             //Assert
-            AssertTrue(output.ToString().ToLower().Contains(expected));
+            AssertFalse(convertedValue.HasValue);
+            AssertNotEqual(convertedValue.Value, input);
         }
 
-        [Fact]
-        public void Empty_String_Input_Caught()
+        [Theory, InlineData(null), InlineData(""), InlineData(" ")]
+        public void Invalid_Strings_Give_Errors(string input)
         {
             //Arrange
-            string input = "";
+            ConvertedValue<string> convertedValue;
 
             //Act
-            object output = ValidationExtensions.ValidateAndConvert<string>(input);
+            input.ValidateAndConvert<string>(out convertedValue);
 
             //Assert
-            AssertTrue(output.ToString().ToLower().Contains(expected));
-        }
-
-        [Fact]
-        public void Blank_String_Input_Caught()
-        {
-            //Arrange
-            string input = "";
-
-            //Act
-            object output = ValidationExtensions.ValidateAndConvert<string>(input);
-
-            //Assert
-            AssertTrue(output.ToString().ToLower().Contains(expected));
+            AssertFalse(convertedValue.HasValue);
+            AssertIsNull(convertedValue.Value);
         }
     }
 }
